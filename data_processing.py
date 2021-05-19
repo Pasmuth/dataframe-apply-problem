@@ -16,7 +16,6 @@ def import_final_om():
 def import_service_data():
 	services = pd.read_csv('services.csv')
 	services.Date = pd.to_datetime(services.Date, errors = 'coerce')
-	services.to_csv('services.csv')
 	return services
 
 
@@ -50,8 +49,11 @@ def pivot_services(row, services = services):
 		code.interact(local = locals())
 	return with_totals
 
-
-om = import_final_om()
+# These work
+# om = import_final_om().head(1000)
+# Row 4150 is bad
+om = import_final_om() #.tail(11700)
+# om = import_final_om()
 serv = om.apply(pivot_services, axis = 1)
 data = pd.merge(om, serv, how = 'outer')
 # data = pd.read_csv('test_sample.csv')
